@@ -1,11 +1,12 @@
-import React, { Component } from 'react';
-import Counter from '../Counter';
+import React, { Component } from 'react'
+import Counter from '../Counter'
 
-class CounterGroud extends Component {
+class CounterGroup extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            size: 0
+            size: 0,
+            totalValue: 0
         }
     }
 
@@ -15,18 +16,35 @@ class CounterGroud extends Component {
         })
     }
 
+    handleIncrease = () => {
+        this.setState((preState) => ({
+            totalValue: preState.totalValue + 1
+        }))
+    }
+
+    handleDecrease = () => {
+        this.setState((preState) => ({
+            totalValue: preState.totalValue - 1
+        }))
+    }
+
     render() {
         const initArray = [...Array(this.state.size).keys()];
         return <div>
+            <div>
             <label>
                 Group-size:
                 <input onBlur={this.onResize} defaultValue={0}></input>
             </label>
-            {
-                initArray.map(key => <Counter key={key} />)
-            }
         </div>
+            <div>
+                <label>Group total:{this.state.totalValue}</label>
+            </div>
+            {
+            initArray.map(key => <Counter onDecrease={this.handleDecrease} onIncrease={this.handleIncrease} key={key} />)
+            }
+        </div >
     }
 }
 
-export default CounterGroud;
+export default CounterGroup;
